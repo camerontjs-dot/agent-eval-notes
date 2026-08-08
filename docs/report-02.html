@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Multi-path coding hard screen · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r02">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 02 · Coding</p>
+            <h1>Multi-path coding hard screen</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> roles involving local LLM coding agents, agent tooling, or model routing.  </p>
+<p class="meta"><strong>Study type:</strong> exploratory sealed suite under packet harness + external verify.  </p>
+<p><strong>Hard suite n per path:</strong> 8 runs (4 case types × 2 seeds): mechanical-edit, regression-test, <strong>two-file-change</strong>, scope-trap.</p>
+<h2>Headline</h2>
+<p>Most mid-size local models clear light coding cases and fail <strong>multi-file coordination</strong>. On this hard screen, only two paths finished perfect: a 14B coder and a 9B general model. One-shot harness repair did <strong>not</strong> rescue wrong model classes.</p>
+<h2>Design choices that matter</h2>
+<ul>
+<li><strong>One primary factor per phase</strong> (model path or harness repair), not a blended soup.</li>
+<li><strong>External verify</strong> decides pass; agent narrative does not.</li>
+<li><strong>Efficiency is a second axis:</strong> wall time and backend RSS, never averaged into quality.</li>
+<li><strong>Sequential stacks only.</strong> Dual-loading Ollama and an MLX server crushed memory in ops checks; screens run one stack at a time.</li>
+</ul>
+<h2>Hard-screen scoreboard (selected paths)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Path</th>
+<th>Micro pass rate</th>
+<th>two-file</th>
+<th>Mean wall (s)</th>
+<th>RSS peak (approx.)</th>
+</tr></thead><tbody>
+<tr>
+<td>qwen2.5-coder:14b (Ollama + Aider)</td>
+<td>1.00</td>
+<td>2/2</td>
+<td>~52</td>
+<td>~15 GB</td>
+</tr>
+<tr>
+<td>qwen3.5:9b (Ollama + Aider)</td>
+<td>1.00</td>
+<td>2/2</td>
+<td>~32</td>
+<td>~8.6–10.6 GB</td>
+</tr>
+<tr>
+<td>qwen3-coder:30b</td>
+<td>0.875</td>
+<td>1/2</td>
+<td>~20</td>
+<td>~18 GB</td>
+</tr>
+<tr>
+<td>qwen3:14b</td>
+<td>0.75</td>
+<td>0/2</td>
+<td>~39</td>
+<td>~15–16 GB</td>
+</tr>
+<tr>
+<td>Gemma 3 12B (Ollama fair)</td>
+<td>0.75</td>
+<td>0/2</td>
+<td>~50</td>
+<td>(see notes)</td>
+</tr>
+<tr>
+<td>Gemma 3 12B (Aider + MLX server fair)</td>
+<td>0.75</td>
+<td>0/2</td>
+<td>~35</td>
+<td>~7.1 GB</td>
+</tr>
+<tr>
+<td>mistral-small3.1</td>
+<td>0.75</td>
+<td>0/2</td>
+<td>~69</td>
+<td>~16 GB</td>
+</tr>
+<tr>
+<td>devstral</td>
+<td>0.75</td>
+<td>0/2 (timeouts)</td>
+<td>~216</td>
+<td>~16–17 GB</td>
+</tr>
+</tbody></table></div>
+<p>Soft fair Gemma (no two-file case): <strong>6/6</strong> on both Ollama and MLX server paths. Light coding runtime parity held; multi-file still failed both.</p>
+<h2>Harness repair (one retry) on two-file only</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Model class</th>
+<th>Baseline two-file</th>
+<th>After one repair</th>
+</tr></thead><tbody>
+<tr>
+<td>Gemma / qwen3:14b</td>
+<td>0/2</td>
+<td><strong>0/2</strong></td>
+</tr>
+<tr>
+<td>qwen3-coder:30b</td>
+<td>1/2</td>
+<td><strong>2/2</strong></td>
+</tr>
+</tbody></table></div>
+<p>Repair helps a <strong>near-miss coder</strong>. It does not convert a non-coder multi-file failure into a pass.</p>
+<h2>Decisions that followed the evidence</h2>
+<ol>
+<li><strong>Default multi-file reliability:</strong> <code>qwen2.5-coder:14b</code> under Aider + packet harness.</li>
+<li><strong>When RAM is tight and the suite is perfect:</strong> prefer <code>qwen3.5:9b</code> (same 8/8, lower wall and RSS).</li>
+<li><strong>Do not default</strong> Gemma, devstral, mistral-small, or qwen3:14b for multi-file work on this suite.</li>
+<li><strong>Repair is conditional,</strong> not a blanket upgrade for every model.</li>
+</ol>
+<p>These are <strong>DEV / sealed-suite routes</strong>, not a claim that every path graduated to unsupervised real worktrees.</p>
+<h2>Claims (provisional)</h2>
+<ol>
+<li>Multi-file is the discriminating case on this instrument.</li>
+<li>Prefer model class over harness repair for multi-file failures.</li>
+<li>Pass rate and efficiency must stay separate columns.</li>
+<li>Fair MLX (Aider + server) is viable for light coding comparisons; it did not fix Gemma&#x27;s two-file gap.</li>
+</ol>
+<h2>What this does <strong>not</strong> prove</h2>
+<ul>
+<li>Not a global ranking of all open models (roster is deliberate, not exhaustive).</li>
+<li>Not SWE-bench or Aider Polyglot calibration (those are separate, optional shortlist tools).</li>
+<li>Not production autonomy. External verify on sealed fixtures is not the same as live repo graduation.</li>
+<li>Small per-cell n (2 seeds). Enough to route defaults and reject weak multi-file paths; not enough to crown a permanent winner.</li>
+</ul>
+<h2>Resume angle</h2>
+<p>Show you can run a <strong>fair multi-path screen</strong>, keep efficiency honest, and change defaults when multi-file evidence contradicts soft-suite comfort.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

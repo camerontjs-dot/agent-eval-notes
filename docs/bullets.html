@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Resume bullets · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="bullets">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Step 12 · Resume</p>
+            <h1>Resume bullets</h1>
+          </header>
+          
+<p class="meta">Copy, then rewrite into the job's language. Prefer one proof cluster per application.</p>
+<div class="bullet-group"><h3>Flagship reliability</h3>
+<ul>
+<li>Built a sealed coding-agent evaluation lab with disposable worktrees and external deterministic verification; treated scope violations and false completion claims as first-class failures.</li>
+<li>Measured a packet harness that improved verified passes from 28/36 to 34/36 and cleared scope (6→0), then rejected global promotion after a pre-registered gate caught 2 false completion claims on multi-file work.</li>
+<li>On a public demo-split live harness, showed that removing a run_verify tool flipped the same model from 3/3 clean to 0/3 pass with 3/3 false completions on a two-file task.</li>
+</ul></div>
+<div class="bullet-group"><h3>Local coding / routing</h3>
+<ul>
+<li>Ran multi-path hard screens across Ollama+Aider and fair MLX; multi-file was the discriminating case (coder-14b and qwen3.5:9b at 8/8).</li>
+<li>Separated quality from efficiency; used the 9B path when RAM was tight at the same perfect pass rate.</li>
+<li>Showed task-family non-transfer: coding hard-screen winner produced 0/9 auto-clean constrained prose outputs.</li>
+</ul></div>
+<div class="bullet-group"><h3>RAG / skills</h3>
+<ul>
+<li>Refused a blended RAG Elo; documented use-case retrieve routes and a generation ceiling.</li>
+<li>Designed agent-as-evaluator skill protocol with a five-case edge matrix; published thin smoke receipts honestly.</li>
+</ul></div>
+<p><a class="btn primary" href="https://camerontjs-dot.github.io/agent-eval-notes/">Open the live tour</a>
+<a class="btn" href="https://github.com/camerontjs-dot/verified-done">Runnable demo</a></p>
+
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

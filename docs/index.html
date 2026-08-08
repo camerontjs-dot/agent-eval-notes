@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Stress-testing agents for failure boundaries · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="start">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Guided tour</p>
+            <h1>Stress-testing agents for failure boundaries</h1>
+          </header>
+          
+<p class="meta"><strong>Cameron Sanderson</strong> · Public package for hiring managers, collaborators, and technical interviewers. Reports, essay, and a runnable demo link. No fixtures, no raw transcripts, no lab internals.</p>
+<div class="callout"><strong>Thesis.</strong> A better aggregate score is not a graduation decision. Pre-register gates for scope and false completion. Treat the harness as an experimental factor, including whether the agent can call an external verifier.</div>
+<div class="tag-row">
+  <span class="tag">Exploratory</span>
+  <span class="tag">Local + live probes</span>
+  <span class="tag reject">Not production validation</span>
+  <span class="tag pass">Runnable demo</span>
+</div>
+<h2>Start the tour</h2>
+<p>Thirteen steps. Method and labels first, then the flagship rejection, the essay, the verify-tool ablation, the other measurement stories, then try the method, limits, and resume language.</p>
+<div class="card-grid two">
+  <a class="story-card" href="report-01.html"><div class="n">Flagship</div><h3>H1 rejection</h3><p>34/36 beats 28/36, still not promoted. False completion gate.</p></a>
+  <a class="story-card" href="essay.html"><div class="n">Essay</div><h3>The harness that scored better</h3><p>Same story in longform, with the verify-tool sequel.</p></a>
+  <a class="story-card" href="report-06.html"><div class="n">New</div><h3>Verify tool ablation</h3><p>Same model, 0/3 vs 3/3 depending on run_verify.</p></a>
+  <a class="story-card" href="demo.html"><div class="n">Runnable</div><h3>Try the method</h3><p>Public demo split + selftest in verified-done.</p></a>
+</div>
+<h2>All stories</h2>
+<div class="card-grid">
+  <a class="story-card" href="report-01.html"><div class="n">01</div><h3>H1 rejection</h3><p>Pre-registered honesty gate.</p><p class="for">AI safety / eval</p></a>
+  <a class="story-card" href="report-02.html"><div class="n">02</div><h3>Multi-path coding</h3><p>Multi-file is the breakpoint.</p><p class="for">Local coding agents</p></a>
+  <a class="story-card" href="report-03.html"><div class="n">03</div><h3>Task-family transfer</h3><p>Coding winner fails constrained prose.</p><p class="for">Eval design</p></a>
+  <a class="story-card" href="report-04.html"><div class="n">04</div><h3>RAG routes</h3><p>Use-case routes, not one Elo.</p><p class="for">RAG / retrieval</p></a>
+  <a class="story-card" href="report-05.html"><div class="n">05</div><h3>Agent-as-evaluator</h3><p>Skill edge matrix + thin smoke receipts.</p><p class="for">Prompt / skills</p></a>
+  <a class="story-card" href="report-06.html"><div class="n">06</div><h3>Verify tool ablation</h3><p>Harness factor for completion honesty.</p><p class="for">Agent reliability</p></a>
+</div>
+<h2>Downloads</h2>
+<ul>
+  <li><a href="pdf/01-h1-rejection-onepager.pdf">H1 rejection one-pager (PDF)</a></li>
+  <li><a href="pdf/02-multi-path-onepager.pdf">Multi-path hard screen one-pager (PDF)</a></li>
+  <li><a href="pdf/03-transfer-onepager.pdf">Task-family transfer one-pager (PDF)</a></li>
+</ul>
+<h2>Related public work</h2>
+<ul>
+  <li><a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> — runnable honesty demo</li>
+  <li><a href="https://github.com/camerontjs-dot/claim-audit-lab">claim-audit-lab</a> — claim support vs nomination</li>
+  <li><a href="https://github.com/camerontjs-dot/apparatus-contracts">apparatus-contracts</a> — handoff contracts</li>
+  <li><a href="https://github.com/camerontjs-dot/research-scaffold-harness">research-scaffold-harness</a> — scaffold vs unsupported claims</li>
+  <li><a href="https://github.com/camerontjs-dot/evidence-bundler">evidence-bundler</a> — evidence-bundle pipeline</li>
+</ul>
+
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

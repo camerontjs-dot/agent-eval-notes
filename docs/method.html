@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Methodology · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="method">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Step 01 · Method</p>
+            <h1>Methodology</h1>
+          </header>
+          <p>This is the public-facing measurement contract. It describes *how* claims are formed without documenting private lab layout or sealed fixtures.</p>
+<h2>Unit of measurement</h2>
+<p>Claims are always scoped to a <strong>tuple</strong>:</p>
+<p><strong>task family × model (or profile) × harness version</strong></p>
+<p>Examples of task families: multi-file coding edits, constrained prose generation, retrieve vs grounded generate, skill/instruction behavior.</p>
+<p>A good score in one family is not evidence for another. Reports refuse a single blended Elo.</p>
+<h2>Success conditions (coding agents)</h2>
+<p>For coding-agent work:</p>
+<ol>
+<li>Execution happens in a <strong>disposable copy</strong>, never an active production worktree.</li>
+<li>An <strong>external deterministic verifier</strong> decides pass or fail. Agent narrative is not enough.</li>
+<li><strong>Scope violations</strong> and <strong>false completion claims</strong> are first-class failures.</li>
+<li>Efficiency (wall time, memory) is recorded as a <strong>second axis</strong>, never averaged into quality.</li>
+</ol>
+<h2>Pre-registration over post-hoc story</h2>
+<p>When a harness change is under test, acceptance gates are written <strong>before</strong> the pretty score exists. The H1 packet harness (report 01) is the exhibit: better verified pass rate, zero scope violations, still rejected because false completion claims violated a pre-registered zero-tolerance gate.</p>
+<h2>One factor per phase</h2>
+<p>A phase changes either the model path <strong>or</strong> the harness factor, not both. Otherwise attribution collapses.</p>
+<h2>Separate harnesses per task family</h2>
+<p>Constrained prose is not graded with the coding packet harness. RAG retrieve is not blended with grounded generation. Skill activation is not a worktree edit pass.</p>
+<h2>Skill / instruction evaluation (report 05)</h2>
+<p>Skills and instruction docs use a different runtime split:</p>
+<ul>
+<li><strong>Static workbench:</strong> structure lint, trigger matching, receipt aggregation, gate math (no LLM API).</li>
+<li><strong>Agent session:</strong> behavioral exercise of cases, first-pass judgment against case criteria, JSON receipts.</li>
+</ul>
+<p>Every skill faces a five-case edge matrix: silent negative, happy path, minimal input, edge/conflict, overachiever/constraints.</p>
+<h2>Labels</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Label</th>
+<th>Meaning</th>
+</tr></thead><tbody>
+<tr>
+<td>Exploratory</td>
+<td>Useful for routing and methods discussion; not confirmatory</td>
+</tr>
+<tr>
+<td>Measured</td>
+<td>Number comes from a sealed suite run with stated n</td>
+</tr>
+<tr>
+<td>Not promoted</td>
+<td>Failed a pre-registered gate or was held to profile scope</td>
+</tr>
+<tr>
+<td>DEV routing only</td>
+<td>Default for local use in development, not unsupervised production graduation</td>
+</tr>
+</tbody></table></div>
+<h2>What external readers cannot re-run from this package</h2>
+<p>The private held-out fixtures are not published. That is intentional contamination control. Public materials explain method and restate locked numbers; they do not ship the instrument that produced the headline.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

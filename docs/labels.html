@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>How to read these labels · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="labels">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Step 02 · Labels</p>
+            <h1>How to read these labels</h1>
+          </header>
+          
+<p class="meta">These labels are part of the product. They are not footer disclaimers to skip.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Label</th><th>Meaning</th><th>How to use it</th></tr></thead>
+<tbody>
+<tr><td><strong>Exploratory</strong></td><td>Useful for routing and methods; not confirmatory</td><td>Do not treat as production proof</td></tr>
+<tr><td><strong>Measured</strong></td><td>Number from a named suite with n stated</td><td>Prefer over "validated"</td></tr>
+<tr><td><strong>Not promoted</strong></td><td>Failed a pre-registered gate or held profile-scoped</td><td>Not the same as "thrown out"</td></tr>
+<tr><td><strong>DEV routing only</strong></td><td>Local development default</td><td>Not unsupervised production graduation</td></tr>
+<tr><td><strong>Provisional</strong></td><td>Grades still open</td><td>Transfer claims that don't need soft grades are still usable</td></tr>
+<tr><td><strong>Ceiling</strong></td><td>Suite no longer discriminates on pass rate</td><td>Expand cases before ranking</td></tr>
+</tbody></table></div>
+<div class="honesty"><strong>Honesty rules</strong>
+<ol>
+<li>State n with every headline metric.</li>
+<li>Name the stack (local open-weight vs live frontier) when it matters.</li>
+<li>Do not blend coding, prose, RAG, and skill scores into one model quality number.</li>
+</ol></div>
+<p>Full lock file in the repo: <code>numbers-lock.md</code>.</p>
+
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

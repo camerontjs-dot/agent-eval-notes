@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>RAG-stack retrieve and grounded-gen routes · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r04">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 04 · RAG</p>
+            <h1>RAG-stack retrieve and grounded-gen routes</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> RAG / retrieval / knowledge-system roles.  </p>
+<p class="meta"><strong>Study type:</strong> exploratory sealed corpus (DEV synthetic; not GxP validation).  </p>
+<p><strong>Rule:</strong> do not blend retrieve pass rates with generation pass rates, or with coding/prose scores.</p>
+<h2>Headline</h2>
+<p>On a sealed retrieve suite, pure BM25 and BGE-M3 both hit perfect pass rates, while lighter dense embedders failed a <strong>status-sensitive</strong> case. On fixed-context grounded generation, four models all hit 1.00 pass, so ranking moved to <strong>efficiency and prior task-family fit</strong>, not a fake Elo.</p>
+<h2>Axes (separate)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Axis</th>
+<th>Question</th>
+<th>External check</th>
+</tr></thead><tbody>
+<tr>
+<td>Retrieve</td>
+<td>Does the right passage rank high for the use case?</td>
+<td>hit@k / pass on sealed queries</td>
+</tr>
+<tr>
+<td>Refuse</td>
+<td>Does the system refuse when it should?</td>
+<td>refuse cases (when run)</td>
+</tr>
+<tr>
+<td>Grounded gen</td>
+<td>Given fixed context, support or refuse correctly?</td>
+<td>support/refuse verifier</td>
+</tr>
+</tbody></table></div>
+<p>One factor per phase. No single &quot;best RAG model&quot; score.</p>
+<h2>Retrieve embedder A/B (60 jobs)</h2>
+<p>Profiles: BM25, sentence-transformers MiniLM, Ollama nomic-embed-text, Ollama bge-m3, Ollama qwen3-embedding 0.6B.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Profile</th>
+<th>Pass rate</th>
+<th>Hit@1</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>bm25</strong></td>
+<td><strong>1.00</strong></td>
+<td>1.00</td>
+<td>Efficiency default when tied</td>
+</tr>
+<tr>
+<td><strong>ollama-bge-m3</strong></td>
+<td><strong>1.00</strong></td>
+<td>1.00</td>
+<td>Best pure dense on this set; fixed status-sensitive fail</td>
+</tr>
+<tr>
+<td>ollama-nomic</td>
+<td>0.92</td>
+<td>0.90</td>
+<td>Fails one regulated_status style case</td>
+</tr>
+<tr>
+<td>st-minilm</td>
+<td>0.92</td>
+<td>0.90</td>
+<td>Same status failure pattern</td>
+</tr>
+<tr>
+<td>ollama-qwen3-emb-0.6b</td>
+<td>0.92</td>
+<td>0.90</td>
+<td>Stronger on status; weaker on paraphrase (0.67)</td>
+</tr>
+</tbody></table></div>
+<p><strong>Situation route:</strong> prefer BM25 when efficiency ties; prefer BM25 or BGE-M3 when document <strong>status / currency</strong> ranking matters; do not assume nomic or MiniLM alone is enough for status-sensitive work.</p>
+<p>Hybrid RRF (BM25 fused with dense) recovered MiniLM/nomic status failures on this sealed set (all hybrid rows 1.00). Still prefer pure BM25 when quality is tied and cost matters.</p>
+<h2>Fixed-context generation (48 jobs)</h2>
+<p>12 sealed cases × 4 models (support + refuse + regulated status style checks). Scorer-fixed run.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Model</th>
+<th>Pass rate</th>
+<th>Prefer?</th>
+</tr></thead><tbody>
+<tr>
+<td>qwen3.5:9b</td>
+<td>1.00</td>
+<td><strong>Yes - default</strong> (lightest among perfect)</td>
+</tr>
+<tr>
+<td>qwen3:14b</td>
+<td>1.00</td>
+<td>Alternate if 9b unavailable</td>
+</tr>
+<tr>
+<td>gemma3:12b</td>
+<td>1.00</td>
+<td>Cross-family OK after scorer fix</td>
+</tr>
+<tr>
+<td>qwen2.5-coder:14b</td>
+<td>1.00</td>
+<td>Control also perfect; <strong>not</strong> transfer proof beyond this suite</td>
+</tr>
+</tbody></table></div>
+<p>Mean wall per case (think off, approx.): qwen3.5:9b <strong>~5.0s</strong> · coder-14b ~7.7s · qwen3:14b ~8.0s · gemma3:12b ~11.2s.</p>
+<p>All models also cleared sealed <strong>refuse</strong> cases on this set. Perfect scores mean the suite is at a <strong>ceiling</strong>: expand adversarial coverage before ranking models by pass rate alone.</p>
+<h2>Decisions / routes</h2>
+<ol>
+<li>Retrieve defaults are <strong>use-case scoped</strong>, not one embedder for everything.</li>
+<li>Grounded gen default on this sealed set: <strong>qwen3.5:9b</strong> by efficiency among perfect models.</li>
+<li>Do not import coding or prose winners as RAG defaults without this suite.</li>
+<li>Do not claim GxP or production validation from DEV synthetic corpus.</li>
+</ol>
+<h2>What this does <strong>not</strong> prove</h2>
+<ul>
+<li>Not a general RAG leaderboard.</li>
+<li>Not proof that hybrid is always better (it tied at 1.00 after rescue; efficiency still favors BM25 when equal).</li>
+<li>Not graduation of any model to unsupervised knowledge-base writes.</li>
+<li>Ceiling risk on generation: perfect pass rates limit discriminative power until harder cases land.</li>
+</ul>
+<h2>Resume angle</h2>
+<p>You separated retrieve vs generate, measured status-sensitive failure modes, and refused a single Elo when the data only supported <strong>situation routes</strong>.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

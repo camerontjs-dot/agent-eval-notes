@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Agent-as-evaluator for skill and instruction docs · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r05">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 05 · Skills</p>
+            <h1>Agent-as-evaluator for skill and instruction docs</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> roles that care about prompt/skill reliability, instruction design, or eval protocols without a permanent API bill.  </p>
+<p class="meta"><strong>Study type:</strong> methodology with early instrumentation. Not a multi-model campaign at coding-lab scale.  </p>
+<p class="meta"><strong>Unit:</strong> skill document × case profile × agent session (not a coding worktree pass).</p>
+<h2>Headline</h2>
+<p>I evaluate agent <strong>skills and instruction docs</strong> with a split runtime: a free deterministic Python workbench for structure and triggers, and the <strong>active agent session</strong> as the behavioral runner and first-pass judge. Every skill is forced through a five-case edge matrix so prompts cannot pass by being only verbose or only brief.</p>
+<h2>Why agent-as-evaluator</h2>
+<p>The usual path is a Python harness that calls a model API for every cell. That burns tokens, couples the suite to one vendor, and still needs a human when the judgment is about instruction following in a real tool loop.</p>
+<p>I chose a different split:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Layer</th>
+<th>Who runs it</th>
+<th>Job</th>
+</tr></thead><tbody>
+<tr>
+<td>Static workbench</td>
+<td>Python CLI</td>
+<td>Lint structure, match triggers, aggregate receipts, enforce gates</td>
+</tr>
+<tr>
+<td>Behavioral session</td>
+<td>Active agent (Claude Code, Codex, etc.)</td>
+<td>Exercise the skill on case inputs, apply verify criteria, write JSON receipts</td>
+</tr>
+</tbody></table></div>
+<p>No extra LLM API cost for the behavioral loop. The agent under test is already in session. Cross-model comparison is &quot;run the same procedure in two sessions,&quot; then compare receipts.</p>
+<p>Honest limit: this is not unattended CI for the full behavioral path. Static lint and trigger stubs can sit in a pre-commit hook. Full case walks need an agent session.</p>
+<h2>Five-case edge matrix</h2>
+<p>Every skill under test is scored against five behavioral profiles. The matrix is the anti-overfit device (pesticide paradox: the same cases forever teach the prompt to pass the suite, not the job).</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Case profile</th>
+<th>What it probes</th>
+<th>Failure signal</th>
+</tr></thead><tbody>
+<tr>
+<td>Silent negative</td>
+<td>Activation boundary on adjacent work</td>
+<td>Skill loads when it should stay quiet</td>
+</tr>
+<tr>
+<td>Happy path</td>
+<td>Clear, fully specified input</td>
+<td>Missing required structure or core task</td>
+</tr>
+<tr>
+<td>Minimal input</td>
+<td>Underspecified request</td>
+<td>Guesses a full draft instead of clarifying</td>
+</tr>
+<tr>
+<td>Edge / conflict</td>
+<td>Messy or contradictory constraints</td>
+<td>Ignores constraints or breaks format</td>
+</tr>
+<tr>
+<td>Overachiever / constraints</td>
+<td>Length caps, forbidden terms</td>
+<td>Spills past limits or uses banned language</td>
+</tr>
+</tbody></table></div>
+<p>When a skill fails in real use, the failure is transcribed into a new case. The suite grows from production defects, not only from author imagination.</p>
+<h2>Trajectory layers (not string match alone)</h2>
+<p>Evaluation is multi-layer:</p>
+<ol>
+<li><strong>Activation</strong> - Does the skill trigger only when it should? Stub matcher + trigger density lint (capped trigger sets).</li>
+<li><strong>Execution</strong> - Does the output meet case criteria? Deterministic <code>verify.py</code> checks plus structured self-eval against the case card.</li>
+<li><strong>Calibration / gate</strong> - Pass-rate thresholds and mandatory boundary cases (silent-negative and happy-path cannot fail open).</li>
+</ol>
+<p>This tracks the shift from final-answer grading to trajectory-aware agent evaluation, adapted for instruction documents rather than web agents.</p>
+<h2>What is instrumented today</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Artifact</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>Methodology and first-principles notes</td>
+<td>Written and used as design authority</td>
+</tr>
+<tr>
+<td>Python workbench (lint, stub, receipts, report, gate)</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td>Case packs</td>
+<td><code>prompt-creation</code>, <code>skill-creation</code>, and a process-control skill family</td>
+</tr>
+<tr>
+<td>Behavioral receipts</td>
+<td><strong>Smoke only</strong> (see table)</td>
+</tr>
+<tr>
+<td>Graduation claims</td>
+<td>Not claiming fleet-wide skill graduation</td>
+</tr>
+</tbody></table></div>
+<h3>Smoke receipts (honest thin slice)</h3>
+<p>Only <code>prompt-creation</code> / <code>happy-path</code> has behavioral receipts so far. Two manual-test runs on 2026-06-22:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Timestamp</th>
+<th>Verdict</th>
+<th>Activated</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>03:28:01Z</td>
+<td>pass</td>
+<td>yes</td>
+<td>Structure assertions clean</td>
+</tr>
+<tr>
+<td>03:28:08Z</td>
+<td>fail</td>
+<td>yes</td>
+<td>Missing sections (<code>element annotation</code>, <code>watch for</code>); forbidden phrase hit</td>
+</tr>
+</tbody></table></div>
+<p>That is enough to prove the receipt path works and that verify can fail a &quot;looks fine&quot; draft. It is <strong>not</strong> a five-case × multi-model campaign. Silent-negative, minimal-input, edge, and overachiever cases are authored; full behavioral walks are still thin.</p>
+<p>Treat this report as <strong>protocol evidence</strong> plus early instrumentation, not as a large sealed multi-model scoreboard.</p>
+<h2>Resume angle</h2>
+<p>You designed an eval protocol that separates free static checks from expensive reasoning, forces activation and constraint boundaries, and uses the agent session itself as the evaluator so skill regression tests stay cheap and realistic.</p>
+<h2>What this does <strong>not</strong> prove</h2>
+<ul>
+<li>Not that every skill in the workspace has passed a graduation gate.</li>
+<li>Not that agent self-judgment is bias-free (verify scripts and mandatory cases are the control).</li>
+<li>Not interchangeable with the coding-agent sealed lab (different unit of work, different metrics).</li>
+<li>Not a published open suite of skill fixtures.</li>
+</ul>
+<h2>Relationship to the coding-agent reports</h2>
+<p>Reports 01–04 measure coding, constrained prose, and RAG stacks under external verifiers. This report measures <strong>instruction and skill documents</strong>. Same discipline: pre-registered failure modes, explicit gates, separate metrics. Different harness.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

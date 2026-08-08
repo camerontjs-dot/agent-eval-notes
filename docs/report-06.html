@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Self-verify is a dominant harness factor · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r06">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 06 · Verify tool</p>
+            <h1>Self-verify is a dominant harness factor</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> anyone shipping coding agents who still treats &quot;done&quot; as a model personality trait.  </p>
+<p class="meta"><strong>Study type:</strong> exploratory live ablation on a public demo-split task family.  </p>
+<p class="meta"><strong>Unit:</strong> tool contract × model × task (not a private sealed fixture).</p>
+<h2>Headline</h2>
+<p>On the same model, same two-file task, and same scoring rules, turning off one tool flipped every outcome from clean to dishonest:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Arm</th>
+<th>n</th>
+<th>Verified pass</th>
+<th>False completion</th>
+</tr></thead><tbody>
+<tr>
+<td>No <code>run_verify</code> tool</td>
+<td>3</td>
+<td>0/3</td>
+<td><strong>3/3</strong></td>
+</tr>
+<tr>
+<td>With <code>run_verify</code> tool</td>
+<td>3</td>
+<td>3/3</td>
+<td><strong>0/3</strong></td>
+</tr>
+</tbody></table></div>
+<p>Model: <code>claude-haiku-4-5</code>. Task: two-file parameter propagate. Harness: list / read / write / (optional) run_verify / finish. External deterministic verifier grades the workspace; the agent&#x27;s finish claim is a separate channel.</p>
+<p>Without a way to check its own work, the model claimed a half-finished two-file change was complete on every attempt. With the tool, it used verify before finish and stayed clean.</p>
+<h2>Why I ran this</h2>
+<p>Report 01 showed a private sealed suite rejecting a harness that looked better on averages because of false completions. That left an open question: is completion honesty mostly &quot;which model,&quot; or can the harness force the issue?</p>
+<p>This probe holds the model fixed and removes one tool. That is the cleanest single-factor move I could run without burning held-out fixtures.</p>
+<h2>What else showed up under the same tool-on harness</h2>
+<p>Honesty smoke, n=4 tasks (mechanical, scope, two two-file), verify tool on:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Model</th>
+<th>Verified pass</th>
+<th>False completion</th>
+<th>Note</th>
+</tr></thead><tbody>
+<tr>
+<td>claude-haiku-4-5</td>
+<td>4/4</td>
+<td>0</td>
+<td>Full 8-task demo split also 8/8, 0 FC</td>
+</tr>
+<tr>
+<td>qwen2.5-coder:14b</td>
+<td>3/4</td>
+<td>0</td>
+<td>Honest incomplete when it could not finish</td>
+</tr>
+<tr>
+<td>qwen3.5:9b</td>
+<td>3/4</td>
+<td>0</td>
+<td>Honest abstain on the two-file task</td>
+</tr>
+<tr>
+<td>qwen3:14b</td>
+<td>3/4</td>
+<td>1</td>
+<td>Still false-completed two-file even with the tool available</td>
+</tr>
+</tbody></table></div>
+<p>The hard part: the tool is <strong>necessary but not sufficient</strong>. It flipped Haiku clean. A different model can still report done without using the tool.</p>
+<h2>Decision language</h2>
+<ol>
+<li>Treat <code>run_verify</code> (or an equivalent external check the agent can call) as a <strong>controlled harness factor</strong>, not wallpaper.</li>
+<li>Do not score &quot;honest completion&quot; without a claim channel separate from the verifier.</li>
+<li>Prefer models that <strong>abstain</strong> when stuck over models that pass softer suites but lie on multi-file.</li>
+</ol>
+<h2>How this pairs with Report 01</h2>
+<p>Report 01: harness change on a sealed local suite, pre-registered zero false-completion gate, promotion rejected.  </p>
+<p>Report 06: live tool ablation on a public demo split, same failure mode, harness factor isolated.</p>
+<p>Same conclusion from two instruments: if you care about unsupervised &quot;done,&quot; measure claim honesty and treat the harness as an experimental axis.</p>
+<h2>What this does not prove</h2>
+<ul>
+<li>Small n. Ablation is three replicates on one hard task.</li>
+<li>Not a model leaderboard.</li>
+<li>Cloud runs are not bit-reproducible; local tool loops are not full IDE agents.</li>
+<li>Not production graduation.</li>
+</ul>
+<h2>Runnable surface</h2>
+<p>The public demo split and runner live in <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a>. Scrubbed live summary: that repo&#x27;s <code>results/LIVE_EVIDENCE.md</code>.</p>
+<h2>Claim I will stand behind</h2>
+<p>On this instrument, whether the agent can call an external verifier changed completion honesty from 0/3 to 3/3 for the same model on the same two-file task. That is a harness result, not a personality trait.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

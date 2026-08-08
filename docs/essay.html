@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>The harness that scored better and was not promoted · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="essay">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Essay</p>
+            <h1>The harness that scored better and was not promoted</h1>
+          </header>
+          <p class="meta">Cameron Sanderson · August 2026 · Exploratory measurement · Local open-weight coding agents</p>
+<p>The packet harness beat the baseline on everything I measured. Verified passes went from 28 out of 36 to 34. Scope violations went from six to zero. On a dashboard it is the obvious thing to ship.</p>
+<p>I did not ship it. The gate for promoting a harness had been written before the run, and one line in it was &quot;zero false completion claims.&quot; On the two-file change category, a local 14B model failed both attempts and reported both as done. Two quiet failures. The average never showed them. The rule did.</p>
+<h2>What I was trying to measure</h2>
+<p>I run a private evaluation lab for local coding agents. The question is not &quot;does the diff look smart.&quot; The question is whether I can leave the agent alone: disposable workspace, external deterministic verifier, no scope violations, and no lying about completion.</p>
+<p>The harness is the wrapper: how the task is framed, what context the agent gets, how edits apply. I had a baseline wrap (H0) and a candidate packet harness (H1) with more structure and supplied context. Ordinary question: is H1 better?</p>
+<h2>The rule existed first</h2>
+<p>Before any H1 number existed, the graduation bar said roughly: strong held-out verified pass rate, zero scope violations, <strong>zero false completion claims</strong>, and no human repair counted as a pass.</p>
+<p>H1&#x27;s own change log expected better scope adherence <strong>and more accurate completion claims</strong>. That third expectation matters. The harness was supposed to make &quot;done&quot; more trustworthy, not less.</p>
+<h2>What the instrument was</h2>
+<p>Six task categories, three local models under Aider and Ollama (<code>qwen2.5-coder:14b</code>, <code>qwen3:14b</code>, <code>qwen3.5:9b</code>), two seeds per cell: thirty-six sealed runs per harness. Pass or fail came from a deterministic check the agent cannot talk past, on a throwaway copy so a bad edit cannot touch a real tree.</p>
+<p>Without hidden fixtures and an outside judge, a pass rate is a vibe. I am not interested in vibes for unsupervised work.</p>
+<h2>Where the aggregate lied</h2>
+<p>H1 cleaned the board on aggregates. Then one cell broke on the axis H1 was supposed to fix.</p>
+<p><code>qwen3:14b</code> on two-file-change: two runs, zero passes, two completion claims. No scope thrash. No timeout theatre. Half the work, full &quot;done.&quot; Twice.</p>
+<p>That model was clean on the other ten of its twelve cells. The other two models were clean on all twelve. The entire regression is two runs of one model on the category where finishing what you started actually matters.</p>
+<h2>Loud failures vs quiet ones</h2>
+<p>A scope violation is loud. You see the forbidden path. A false completion is quiet. The summary looks clean and the gap shows up later, when someone trusts the claim.</p>
+<p>For anything you hope to leave unsupervised, quiet failures are the dangerous ones. That is why the gate treats them like correctness failures, not style nits. An agent you cannot trust to say &quot;I did not finish&quot; is not an agent you can leave alone, no matter how good its average looks.</p>
+<h2>The decision was already written</h2>
+<p>Reject global promotion. Keep H1 profile-scoped. Block multi-file for the failing model class until the evidence changes.</p>
+<p>I did not get to decide, after seeing 34 beat 28, that two false completions were &quot;fine for now.&quot; The rule decided. I had written the rule when I still had no idea which way the numbers would fall. That is the difference between discipline and a rationalized preference.</p>
+<p>The same false-completion count showed up again on an independent stress suite. Small n still. Not a one-off mood.</p>
+<h2>A second instrument, same failure mode</h2>
+<p>Later, on a <strong>public</strong> demo-split live harness, I held the model fixed and removed one tool: <code>run_verify</code>. Same two-file style task, three replicates:</p>
+<ul>
+<li>Without verify: 0/3 pass, 3/3 false completions  </li>
+<li>With verify: 3/3 pass, 0/3 false completions  </li>
+</ul>
+<p>That is Report 06. Harness factor, not personality. The tool is necessary and still not always sufficient: another model false-completed even with verify available by not using it.</p>
+<h2>What this does not prove</h2>
+<p>H1 is not a bad harness. It improved verified passes and cleared scope.  </p>
+<p><code>qwen3:14b</code> is not a globally bad model. It passed ten of twelve other cells.  </p>
+<p>I am not claiming packet prompts *cause* false completions. The confound is not isolated; n per cell is two.  </p>
+<p>This is not a production or frontier ranking. Local stack, exploratory study, DEV routing only.</p>
+<h2>The claim I will stand behind</h2>
+<p>A harness that won on every aggregate metric was correctly <strong>not promoted</strong>, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.</p>
+<p>If you only remember one thing: pre-register the quiet failure mode before the pretty number arrives. Separate verified pass, scope, and claim honesty. Then change defaults only when the hard cases agree.</p>
+<h2>Where to go next</h2>
+<ul>
+<li>Short technical write-up: <a href="../reports/01-h1-rejection.md">Report 01</a>  </li>
+<li>Verify-tool ablation: <a href="../reports/06-verify-tool-false-completion.md">Report 06</a>  </li>
+<li>Guided tour: <a href="https://camerontjs-dot.github.io/agent-eval-notes/">GitHub Pages site</a>  </li>
+<li>Runnable demo split: <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a>  </li>
+</ul>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

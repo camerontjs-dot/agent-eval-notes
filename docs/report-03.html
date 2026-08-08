@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Fixture-safety and task-family transfer · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r03">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 03 · Transfer</p>
+            <h1>Fixture-safety and task-family transfer</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> roles in evaluation design, synthetic data, constrained generation, or agent routing.  </p>
+<p class="meta"><strong>Study type:</strong> exploratory constrained-prose suite (deterministic scorer + human-style keep grades).  </p>
+<p><strong>n:</strong> 36 matrix jobs (3 sealed cases × 4 models × 3 seeds) on the v0.1-robust panel.</p>
+<h2>Headline</h2>
+<p>The <strong>best multi-file coding model on the hard screen produced zero auto-clean constrained prose outputs</strong> on this suite. Task families do not transfer. Routing by a single &quot;best local model&quot; is an anti-pattern the data rejected.</p>
+<h2>Problem the suite targets</h2>
+<p>When generating dry operational filler next to gold or regulated material, models must obey hard constraints: subject bans, verb bans, format, word bands, no meta-leak, no forbidden propositions. Looking fluent is not enough. Contaminating gold is a real failure mode.</p>
+<p>This is a <strong>prose harness</strong>, not the coding packet path. Scores are never blended with coding pass rates.</p>
+<h2>Pipeline</h2>
+<ol>
+<li>Generate under a fixed contract.</li>
+<li><strong>Auto scorer</strong> hard-fails rule breaks (deterministic).</li>
+<li>Only auto-clean outputs get quality grades (assignment + writing axes).</li>
+<li>Keep requires both axes at threshold (A≥3 and B≥3 on the graded pass).</li>
+</ol>
+<h2>Panel results (v0.1-robust)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Metric</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Matrix jobs</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Auto-clean (no hard-fail)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Keep (after grades on auto-clean)</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Iterate</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Kill</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Keep rate of full matrix</strong></td>
+<td><strong>0.25</strong></td>
+</tr>
+</tbody></table></div>
+<p>Most generations fail the rules before any human taste test. That is the point of the instrument.</p>
+<h3>By model (9 jobs each)</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Model profile</th>
+<th>Auto-clean</th>
+<th>Keep</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>qwen3.5:9b</td>
+<td>3</td>
+<td>3</td>
+<td>Best writing axis on keeps (B=4 on all three)</td>
+</tr>
+<tr>
+<td>qwen3:14b</td>
+<td>3</td>
+<td>3</td>
+<td>Solid alternate general</td>
+</tr>
+<tr>
+<td>qwen3-coder:30b</td>
+<td>4</td>
+<td>3</td>
+<td>One iterate (subject-adjacent slip)</td>
+</tr>
+<tr>
+<td><strong>qwen2.5-coder:14b</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td>Coding hard-screen winner; <strong>wrong family</strong> for this job</td>
+</tr>
+</tbody></table></div>
+<p>Human grades on the auto-clean set were assistant first-pass with operator confirm still open. Treat keep labels as <strong>provisional</strong>, not locked gold. The transfer failure does not depend on the soft grades: coder-14b never reached auto-clean.</p>
+<h2>Decision language</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Route</th>
+<th>Model</th>
+<th>Evidence</th>
+</tr></thead><tbody>
+<tr>
+<td>Prose / constrained filler default</td>
+<td>qwen3.5:9b</td>
+<td>All auto-clean seeds kept; best writing scores</td>
+</tr>
+<tr>
+<td>Do not use for this task</td>
+<td>qwen2.5-coder:14b</td>
+<td>0/9 auto-clean</td>
+</tr>
+<tr>
+<td>Coding multi-file default</td>
+<td>qwen2.5-coder:14b</td>
+<td>Separate hard screen (see report 02)</td>
+</tr>
+</tbody></table></div>
+<p>Same lab, separate harnesses, separate winners.</p>
+<h2>Claims (provisional)</h2>
+<ol>
+<li><strong>Task-family transfer fails</strong> between multi-file coding and constrained filler on these instruments.</li>
+<li>A low keep rate (~25%) is informative, not an embarrassment: unconstrained &quot;good writing&quot; benches would miss the contamination risk.</li>
+<li>Negative results (coding champion fails prose rules) are publishable and more useful than silent regeneration.</li>
+</ol>
+<h2>What this does <strong>not</strong> prove</h2>
+<ul>
+<li>Not general writing quality or creative writing ranking.</li>
+<li>Not regulated corpus accuracy claims.</li>
+<li>Not a full panel for every model (Gemma prose was smoke-only later).</li>
+<li>Grades pending final operator confirm remain provisional.</li>
+</ul>
+<h2>Resume angle</h2>
+<p>You designed an eval that <strong>protects gold material</strong>, measured hard-fail rates, and refused to promote a coding winner into a prose job without evidence.</p>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

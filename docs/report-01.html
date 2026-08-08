@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>The harness that scored better and was not promoted · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="r01">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Report 01 · Flagship</p>
+            <h1>The harness that scored better and was not promoted</h1>
+          </header>
+          <p class="meta"><strong>Audience:</strong> hiring managers and technical interviewers evaluating agent evaluation or AI reliability work.  </p>
+<p class="meta"><strong>Study type:</strong> exploratory measurement on local open-weight coding agents (Aider + Ollama).  </p>
+<p><strong>n:</strong> 36 sealed runs per harness on the core suite (6 task categories × 3 models × 2 seeds).</p>
+<h2>Headline</h2>
+<p>On a sealed coding-agent suite, a packet-style harness (H1) beat the baseline (H0) on every aggregate metric and was still <strong>not promoted</strong> for global use. A pre-registered gate caught two false completion claims that the average score concealed.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Metric</th>
+<th>H0 baseline</th>
+<th>H1 packet</th>
+<th>Delta</th>
+</tr></thead><tbody>
+<tr>
+<td>Verified passes</td>
+<td>28 / 36</td>
+<td>34 / 36</td>
+<td>+6</td>
+</tr>
+<tr>
+<td>Scope violations</td>
+<td>6</td>
+<td>0</td>
+<td>−6</td>
+</tr>
+<tr>
+<td>False completion claims</td>
+<td>0</td>
+<td>2</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>Decision</td>
+<td></td>
+<td></td>
+<td><strong>reject global promotion</strong></td>
+</tr>
+</tbody></table></div>
+<p>This is a methods result about <strong>how you decide</strong>, not a claim that H1 is worthless or that any model is globally bad.</p>
+<h2>Setup (what was measured)</h2>
+<p>I built a private evaluation lab for local coding agents. Success is not &quot;the diff looked right.&quot; Success is:</p>
+<ol>
+<li>Work runs in a <strong>disposable copy</strong>, never a live tree.</li>
+<li>An <strong>external deterministic verifier</strong> decides pass or fail.</li>
+<li>Scope violations and <strong>false completion claims</strong> are first-class failure modes, not footnotes.</li>
+</ol>
+<p>Harnesses under test:</p>
+<ul>
+<li><strong>H0:</strong> baseline agent wrap</li>
+<li><strong>H1 (packet):</strong> structured task packet (more explicit framing and supplied context)</li>
+</ul>
+<p>Models: <code>qwen2.5-coder:14b</code>, <code>qwen3:14b</code>, <code>qwen3.5:9b</code> under Aider + Ollama.</p>
+<h2>Pre-registered gate</h2>
+<p>Before H1 results existed, graduation required (paraphrased):</p>
+<ul>
+<li>strong held-out verified pass rate</li>
+<li>zero scope violations</li>
+<li><strong>zero false completion claims</strong></li>
+<li>no human repair counted as a pass</li>
+</ul>
+<p>H1&#x27;s change log expected better scope adherence <strong>and more accurate completion claims</strong>. That prediction is load-bearing: the harness was supposed to fix the failure that later rejected it.</p>
+<h2>What the aggregate missed</h2>
+<p>The entire H1 regression sat in one cell:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Model</th>
+<th>Category</th>
+<th>Runs</th>
+<th>Passes</th>
+<th>Scope violations</th>
+<th>False &quot;done&quot; claims</th>
+</tr></thead><tbody>
+<tr>
+<td>qwen2.5-coder:14b</td>
+<td>all six categories</td>
+<td>12</td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>qwen3.5:9b</td>
+<td>all six categories</td>
+<td>12</td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>qwen3:14b</td>
+<td>five of six</td>
+<td>10</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>qwen3:14b</strong></td>
+<td><strong>two-file-change</strong></td>
+<td><strong>2</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>2</strong></td>
+</tr>
+</tbody></table></div>
+<p>On two-file coordination, <code>qwen3:14b</code> did not thrash or escape scope. It partially completed the work and reported <strong>done</strong>. Twice. That is the quiet failure mode unsupervised agents are dangerous for: the summary looks clean and the gap shows up later.</p>
+<h2>Decision</h2>
+<p><strong>Do not promote H1 globally.</strong> Keep it profile-scoped. Block multi-file coordination for the failing model class until evidence changes.</p>
+<p>The same false-completion pattern reappeared on an independent stress suite (2 false claims on the H1 stress run-set). Small n still, but not a single unlucky cell only.</p>
+<h2>Why this is resume-relevant</h2>
+<p>This is applied evaluation discipline, not a leaderboard chase:</p>
+<ul>
+<li>Pre-register the unsafe failure mode <strong>before</strong> the pretty number arrives.</li>
+<li>Separate <strong>verified pass</strong>, <strong>scope</strong>, and <strong>claim honesty</strong>.</li>
+<li>Prefer a reject that protects real delegation over a dashboard that looks shippable.</li>
+</ul>
+<p>Pharma QA habits transfer here: acceptance criteria outrank a metric that moved the right way.</p>
+<h2>What this does <strong>not</strong> prove</h2>
+<ul>
+<li>Not that H1 is a bad harness. It improved verified passes and cleared scope.</li>
+<li>Not that <code>qwen3:14b</code> is a bad model. It passed 10 of 12 other cells clean.</li>
+<li>Not that packet prompting *causes* false completions (confound not isolated; n per cell is 2).</li>
+<li>Not a production or frontier-model claim. Local stack, DEV routing only.</li>
+<li>Exploratory study: confirmatory use would need a fresh run under a pinned protocol.</li>
+</ul>
+<h2>Claim I will stand behind</h2>
+<p>A harness that won on every aggregate metric was correctly <strong>not promoted</strong>, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.</p>
+<h2>Interview talking points (optional)</h2>
+<ol>
+<li>Why is a false &quot;done&quot; worse than a loud scope violation for unsupervised agents?</li>
+<li>How would you instrument claim accuracy without trusting the model&#x27;s self-report?</li>
+<li>What changes if n becomes large enough to rank models, not only reject promotions?</li>
+</ol>
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>

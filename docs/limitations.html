@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public-safe agent evaluation write-ups by Cameron Sanderson. Exploratory measurements, not production validation.">
+  <title>Limitations · Cameron Sanderson</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="limits">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Tour navigation">
+      <div class="brand-block">
+        <p class="eyebrow">Portfolio write-ups</p>
+        <h1>Agent evaluation</h1>
+        <p class="sub">Cameron Sanderson<br>Measured · exploratory · public-safe</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="label"><span>Tour progress</span><span id="progress-text">-</span></div>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      </div>
+      <ol class="nav-list" id="tour-nav"></ol>
+      <div class="sidebar-foot">
+        Held-out fixtures stay private.<br>
+        <a href="pdf/01-h1-rejection-onepager.pdf">H1 PDF</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">Demo repo</a>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <strong>Agent evaluation</strong>
+        <button type="button" id="nav-toggle" aria-label="Open tour menu">Menu</button>
+      </div>
+      <div class="content">
+        <article class="article">
+          <header>
+            <p class="kicker">Step 11 · Limits</p>
+            <h1>Limitations</h1>
+          </header>
+          <p>Read this before treating any report as a general ranking of models or harnesses.</p>
+<h2>Scope of claims</h2>
+<ul>
+<li><strong>Local open-weight stacks</strong> dominate the coding, prose, and RAG numbers (Ollama, Aider, MLX where noted). Frontier API results appear only when a report explicitly says so.</li>
+<li>Sample sizes are <strong>honest but small</strong> at the cell level (often 2 seeds). Enough to reject weak multi-file paths and gate promotions; not enough to crown permanent winners.</li>
+<li>Studies are labeled <strong>exploratory</strong> unless a confirmatory protocol is named.</li>
+<li><strong>No unsupervised production graduation</strong> is claimed from these notes alone.</li>
+</ul>
+<h2>What is not measured here</h2>
+<ul>
+<li>Full SWE-bench or Aider Polyglot as the primary instrument (optional calibration only, not the headline).</li>
+<li>Multi-agent fleet reliability at org scale.</li>
+<li>GxP / regulated system validation from DEV synthetic corpora.</li>
+<li>Exhaustive coverage of all open models.</li>
+</ul>
+<h2>Contamination and privacy</h2>
+<p>Sealed fixtures stay private. This package is methods + sanitized results. If a future public demo split is published, it will be <strong>authored fresh</strong> for public use, not extracted from held-out lab cases.</p>
+<h2>Skill-eval maturity</h2>
+<p>Report 05 documents a real protocol and early instrumentation. It is <strong>not</strong> a large multi-model sealed campaign at the same depth as the coding hard screen. Do not equate the two.</p>
+<h2>Preferred language</h2>
+<p>Prefer: measured, exploratory, not promoted, profile-scoped, DEV routing only.  </p>
+<p>Avoid: validated, proven, production-ready agents, overall model quality score.</p>
+<div class="callout warn"><strong>Also:</strong> skill-eval behavioral depth is thin (smoke receipts only). RAG generation is at a ceiling on the current fixed-context set. See notes/rag-adversarial-next.md for the harder-slice plan (no new numbers yet).</div>
+
+        </article>
+      </div>
+      <div class="tour-bar">
+        <div class="tour-inner">
+          <a class="btn" id="tour-prev" href="#">← Previous</a>
+          <span class="hint">Keyboard: ← → or P / N</span>
+          <a class="btn primary" id="tour-next" href="#">Next →</a>
+        </div>
+      </div>
+      <footer class="site-end">
+        Cameron Sanderson · <a href="https://github.com/camerontjs-dot/agent-eval-notes">agent-eval-notes</a> ·
+        <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a> ·
+        MIT · Not a production validation claim
+      </footer>
+    </div>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>
