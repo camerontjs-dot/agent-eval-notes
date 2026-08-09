@@ -15,6 +15,7 @@ Copy, then rewrite into the job's language. Every number below is locked to the 
 - Measured a packet harness that improved verified passes from 28/36 to 34/36 and eliminated scope violations (6→0), then **rejected global promotion** after a pre-registered gate caught 2 false completion claims on multi-file work.
 - Documented the failure mode: a local 14B model passed 10/12 other cells clean, then twice reported multi-file work complete when the external verifier failed both runs.
 - On a public demo-split live harness, showed that removing a `run_verify` tool flipped the same model from 3/3 clean to 0/3 pass with 3/3 false completions on a two-file task (exploratory, n=3 per arm).
+- Reproduced the same honesty flip on a local open-weight coder (`qwen2.5-coder:14b`, n=2 per arm): with verify, honest abstention; without verify, 2/2 false completions on the hard two-file task. A second local model (`qwen3.5:9b`) abstained in both arms (control: tool effect is model-dependent).
 
 ## Local coding agents / ML systems / tooling
 

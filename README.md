@@ -29,7 +29,7 @@ python3 -m http.server 8080 --directory docs
 | [`docs/`](docs/) | GitHub Pages guided tour |
 | [`reports/`](reports/) | Six self-contained Markdown write-ups (01–06) |
 | [`essays/`](essays/) | Longform H1 rejection essay |
-| [`briefs/`](briefs/) | One-page briefs for PDF |
+| [`briefs/`](briefs/) | One-page briefs for PDF + [harness isolation protocol card](briefs/harness-isolation-protocol-card.md) |
 | [`pdf/`](pdf/) | Print-ready PDFs (H1, multi-path, transfer) |
 | [`numbers-lock.md`](numbers-lock.md) | Locked headline numbers + cross-repo links |
 | [`METHODOLOGY.md`](METHODOLOGY.md) | How measurement is defined |
@@ -47,7 +47,7 @@ python3 -m http.server 8080 --directory docs
 | [03 - Task-family transfer](reports/03-fixture-safety-task-transfer.md) | Coding winner fails constrained prose | Eval design |
 | [04 - RAG routes](reports/04-rag-stack-routes.md) | Use-case routes, not one Elo | RAG / retrieval |
 | [05 - Agent-as-evaluator](reports/05-skill-eval-agent-as-evaluator.md) | Skill edge matrix + thin smoke receipts | Prompt / skills |
-| [06 - Verify tool ablation](reports/06-verify-tool-false-completion.md) | run_verify flips 0/3 → 3/3 honesty | Agent reliability |
+| [06 - Verify tool ablation](reports/06-verify-tool-false-completion.md) | run_verify flips honesty (Haiku + local coder-14b); abstainer control | Agent reliability |
 
 **Essay:** [The harness that scored better and was not promoted](essays/the-harness-that-scored-better.md)
 

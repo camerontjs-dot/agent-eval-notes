@@ -35,6 +35,18 @@ When a harness change is under test, acceptance gates are written **before** the
 
 A phase changes either the model path **or** the harness factor, not both. Otherwise attribution collapses.
 
+## Harness isolation (protocol card)
+
+Long-horizon agent scores mix model and harness. Before claiming a model win, a harness win, or a promotion:
+
+1. Name the **unit under test** (model vs one harness module vs full product stack).
+2. Hold everything else **fixed** and written down (tool contract, prompts, memory, task ids, verifier).
+3. Publish scores with **disclosure fields**: model, harness version, tools (especially verify), task family, n, study type, and any promotion gate.
+4. For coding agents, report **verified pass** and **false completion** as separate metrics. Prefer a pre-registered zero false-completion gate on promotion suites.
+5. Prefer isolation designs already exercised here: same model tool-on/off (Report 06), same harness multi-model honesty smoke, packet A vs B at fixed models (Report 01), multi-family transfer (Report 03).
+
+Full checklist: [`briefs/harness-isolation-protocol-card.md`](briefs/harness-isolation-protocol-card.md).
+
 ## Separate harnesses per task family
 
 Constrained prose is not graded with the coding packet harness. RAG retrieve is not blended with grounded generation. Skill activation is not a worktree edit pass.

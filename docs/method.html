@@ -55,6 +55,9 @@
 <p>When a harness change is under test, acceptance gates are written <strong>before</strong> the pretty score exists. The H1 packet harness (report 01) is the exhibit: better verified pass rate, zero scope violations, still rejected because false completion claims violated a pre-registered zero-tolerance gate.</p>
 <h2>One factor per phase</h2>
 <p>A phase changes either the model path <strong>or</strong> the harness factor, not both. Otherwise attribution collapses.</p>
+<h2>Harness isolation</h2>
+<p>Long-horizon scores mix model and harness. Before claiming a model win, harness win, or promotion: name the unit under test, hold everything else fixed, and publish disclosure fields (model, harness version, tool contract especially verify, task family, n, study type, promotion gate).</p>
+<p>For coding agents, report <strong>verified pass</strong> and <strong>false completion</strong> separately. Prefer a pre-registered zero false-completion gate on promotion suites. Full checklist: <a href="https://github.com/camerontjs-dot/agent-eval-notes/blob/main/briefs/harness-isolation-protocol-card.md">harness isolation protocol card</a>.</p>
 <h2>Separate harnesses per task family</h2>
 <p>Constrained prose is not graded with the coding packet harness. RAG retrieve is not blended with grounded generation. Skill activation is not a worktree edit pass.</p>
 <h2>Skill / instruction evaluation (report 05)</h2>
