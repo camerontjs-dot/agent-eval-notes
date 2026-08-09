@@ -83,10 +83,10 @@
 </ol>
 <p>Harnesses under test:</p>
 <ul>
-<li><strong>H0:</strong> baseline agent wrap</li>
-<li><strong>H1 (packet):</strong> structured task packet (more explicit framing and supplied context)</li>
+<li><strong>H0:</strong> baseline agent wrap — model + edit loop + same external grade</li>
+<li><strong>H1 (packet):</strong> structured task packet — more explicit framing and supplied context; same models and oracle</li>
 </ul>
-<p>Models: <code>qwen2.5-coder:14b</code>, <code>qwen3:14b</code>, <code>qwen3.5:9b</code> under Aider + Ollama.</p>
+<p>Models: <code>qwen2.5-coder:14b</code>, <code>qwen3:14b</code>, <code>qwen3.5:9b</code> under Aider + Ollama. Shared: disposable workspaces, external verify, separate scope/honesty channels. Differs: packet structure only. <a href="https://github.com/camerontjs-dot/agent-eval-notes/blob/main/briefs/public-harness-descriptions.md">Harness descriptions</a>.</p>
 <h2>Pre-registered gate</h2>
 <p>Before H1 results existed, graduation required (paraphrased):</p>
 <ul>

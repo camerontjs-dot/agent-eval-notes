@@ -47,6 +47,15 @@ Long-horizon agent scores mix model and harness. Before claiming a model win, a 
 
 Full checklist: [`briefs/harness-isolation-protocol-card.md`](briefs/harness-isolation-protocol-card.md).
 
+## Public harness descriptions (credibility without fixtures)
+
+Structural disclosure for each stack used in the reports lives in [`briefs/public-harness-descriptions.md`](briefs/public-harness-descriptions.md): H0 vs H1 packet, live tool contract (`list` / `read` / `write` / optional `run_verify` / `finish`), multi-path, fixture-safety, RAG, and skill stacks.
+
+**Disclosed:** runtime class, tool contract, free factor, oracle, claim channel, n, promotion gates.  
+**Not disclosed:** sealed fixture text, gold patches, full prompt files, raw transcripts.
+
+That split is intentional. Sealed fixtures stay sealed so they keep measuring something; the public [verified-done](https://github.com/camerontjs-dot/verified-done) demo split is the re-runnable method surface.
+
 ## Separate harnesses per task family
 
 Constrained prose is not graded with the coding packet harness. RAG retrieve is not blended with grounded generation. Skill activation is not a worktree edit pass.

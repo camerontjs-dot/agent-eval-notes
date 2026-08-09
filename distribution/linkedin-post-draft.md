@@ -1,6 +1,6 @@
 # LinkedIn post draft (H1 rejection)
 
-Status: ready to paste after a final human skim. Medium-high register. One link. Max 2 hashtags.
+Status: **selected for post** — see [`linkedin-post-log.md`](linkedin-post-log.md) for final paste body, checklist, and Posted row. Medium-high register. Max 2 hashtags.
 
 ---
 

@@ -32,10 +32,13 @@ I built a private evaluation lab for local coding agents. Success is not "the di
 2. An **external deterministic verifier** decides pass or fail.
 3. Scope violations and **false completion claims** are first-class failure modes, not footnotes.
 
-Harnesses under test:
+Harnesses under test (structure only; full packet text stays private):
 
-- **H0:** baseline agent wrap
-- **H1 (packet):** structured task packet (more explicit framing and supplied context)
+- **H0:** baseline agent wrap — model + edit loop + same external grade, without the structured packet
+- **H1 (packet):** structured task packet — more explicit task framing and supplied context than H0; **same** models, disposable workspaces, and external verifier
+
+What is shared across H0/H1: Aider + Ollama runtime, disposable copies, external deterministic verify, separate scoring of scope and false "done" claims.  
+What differs: packet structure only (scaffold comparison). Public card: [`briefs/public-harness-descriptions.md`](../briefs/public-harness-descriptions.md).
 
 Models: `qwen2.5-coder:14b`, `qwen3:14b`, `qwen3.5:9b` under Aider + Ollama.
 

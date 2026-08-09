@@ -23,6 +23,11 @@ Rules applied before materials entered this package.
 - Model and runtime names used in the measurement
 - Gate language that forced a reject or promote decision
 - Explicit non-claims
+- **Harness structure at card level** (stack id, tool contract, free factor, oracle, claim channel) — see `briefs/public-harness-descriptions.md`
+
+## Disclosure floor vs contamination
+
+Credibility needs **structure**. Contamination control needs **sealed content**. Prefer richer harness cards over leaking fixtures. If a reader needs to re-run a method, point them at the public demo split, not the held-out suite.
 
 ## Number discipline
 

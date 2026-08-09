@@ -29,7 +29,8 @@ python3 -m http.server 8080 --directory docs
 | [`docs/`](docs/) | GitHub Pages guided tour |
 | [`reports/`](reports/) | Six self-contained Markdown write-ups (01–06) |
 | [`essays/`](essays/) | Longform H1 rejection essay |
-| [`briefs/`](briefs/) | One-page briefs for PDF + [harness isolation protocol card](briefs/harness-isolation-protocol-card.md) |
+| [`briefs/`](briefs/) | One-pagers, [harness isolation protocol](briefs/harness-isolation-protocol-card.md), [public harness descriptions](briefs/public-harness-descriptions.md) |
+| [`distribution/`](distribution/) | LinkedIn paste body + [post log](distribution/linkedin-post-log.md) |
 | [`pdf/`](pdf/) | Print-ready PDFs (H1, multi-path, transfer) |
 | [`numbers-lock.md`](numbers-lock.md) | Locked headline numbers + cross-repo links |
 | [`METHODOLOGY.md`](METHODOLOGY.md) | How measurement is defined |
