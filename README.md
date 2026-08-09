@@ -22,6 +22,18 @@ Local preview:
 python3 -m http.server 8080 --directory docs
 ```
 
+
+## Public surface map
+
+| Surface | Role |
+|---------|------|
+| **This repo + Pages tour** | Methods, locked numbers, harness disclosure, essay |
+| [verified-done](https://github.com/camerontjs-dot/verified-done) | Runnable honesty demo (tasks + selftest + live evidence summary) |
+| Related apparatus | [claim-audit-lab](https://github.com/camerontjs-dot/claim-audit-lab), [evidence-bundler](https://github.com/camerontjs-dot/evidence-bundler), [apparatus-contracts](https://github.com/camerontjs-dot/apparatus-contracts) |
+| Workspace OS | [MainFrame](https://github.com/camerontjs-dot/MainFrame) (public Stage 1b cut; MindGraph nested) |
+
+Operator publish logs and internal program notes stay in the private workspace. They are not part of this repo.
+
 ## What you will find
 
 | Path | Contents |
@@ -35,7 +47,7 @@ python3 -m http.server 8080 --directory docs
 | [`numbers-lock.md`](numbers-lock.md) | Locked headline numbers + cross-repo links |
 | [`METHODOLOGY.md`](METHODOLOGY.md) | How measurement is defined |
 | [`LIMITATIONS.md`](LIMITATIONS.md) | What these notes do not claim |
-| [`resume-bullets.md`](resume-bullets.md) | Copy-ready bullets |
+| [`proof-points.md`](proof-points.md) | Resume / interview talking points (numbers-locked) |
 | [`distribution/linkedin-post-draft.md`](distribution/linkedin-post-draft.md) | Ready-to-post LinkedIn draft |
 | [`notes/rag-adversarial-next.md`](notes/rag-adversarial-next.md) | RAG harder-slice plan (no new numbers yet) |
 

@@ -1,13 +1,15 @@
 ---
-title: "Resume and application bullets - agent evaluation"
+title: "Proof points — agent evaluation (resume / interview)"
 privacy: "public-safe"
 updated: "2026-08-08"
-source: "public reports 01–05"
+source: "public reports 01–06"
 ---
 
-# Resume and application bullets
+# Proof points (resume and interview)
 
-Copy, then rewrite into the job's language. Every number below is locked to the public reports; do not invent extras. Prefer **one** proof cluster per application.
+Public-safe, numbers-locked talking points from the reports. Not a full resume file.
+
+Every number is locked to the public reports; do not invent extras. Prefer **one** proof cluster per application, then rewrite into the job's language.
 
 ## Flagship (AI eval / agent reliability / safety-minded systems)
 

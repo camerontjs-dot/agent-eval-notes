@@ -13,7 +13,7 @@
     { id: "r05", href: "report-05.html", label: "Agent-as-evaluator", step: "09" },
     { id: "demo", href: "demo.html", label: "Try the method", step: "10" },
     { id: "limits", href: "limitations.html", label: "Limitations", step: "11" },
-    { id: "bullets", href: "bullets.html", label: "Resume bullets", step: "12" }
+    { id: "bullets", href: "bullets.html", label: "Proof points", step: "12" }
   ];
   function currentIndex() {
     const page = document.body.dataset.page || "start";

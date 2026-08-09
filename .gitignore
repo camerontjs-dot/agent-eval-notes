@@ -1,4 +1,0 @@
-# Local PDF render intermediates
-pdf/.render-tmp/
-pdf/*.html
-.DS_Store
