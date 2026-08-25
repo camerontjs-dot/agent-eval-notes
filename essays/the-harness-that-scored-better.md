@@ -4,9 +4,11 @@ Cameron Sanderson · August 2026 · Exploratory measurement · Local open-weight
 
 ---
 
-The packet harness beat the baseline on everything I measured. Verified passes went from 28 out of 36 to 34. Scope violations went from six to zero. On a dashboard it is the obvious thing to ship.
+The packet harness improved verified passes from 28 of 36 to 34, and it cleared all six scope violations. On a dashboard that is the obvious thing to ship.
 
-I did not ship it. The gate for promoting a harness had been written before the run, and one line in it was "zero false completion claims." On the two-file change category, a local 14B model failed both attempts and reported both as done. Two quiet failures. The average never showed them. The rule did.
+I did not ship it. The promotion gate had been written before the run, and one line in it was zero false completion claims. On two-file work, a local 14B model failed both attempts and reported both as done. Two quiet failures. The average never showed them. The rule did.
+
+There is a second honesty issue I should have published with the table. H0's claim parse rate was 0.0. The baseline wrap never emitted a parseable completion claim, so it could not record a false completion. The old 0 vs 2 comparison is not a delta. H1 is the first harness in this lab where claim honesty is measurable, and it failed an absolute bar, not a comparison to baseline.
 
 ## What I was trying to measure
 
@@ -28,7 +30,7 @@ Without hidden fixtures and an outside judge, a pass rate is a vibe. I am not in
 
 ## Where the aggregate lied
 
-H1 cleaned the board on aggregates. Then one cell broke on the axis H1 was supposed to fix.
+H1 cleaned the board on the two metrics both arms can emit. Then one cell broke on the axis H1 was supposed to fix, and that axis only exists on H1.
 
 `qwen3:14b` on two-file-change: two runs, zero passes, two completion claims. No scope thrash. No timeout theatre. Half the work, full "done." Twice.
 
@@ -66,7 +68,7 @@ This is not a production or frontier ranking. Local stack, exploratory study, DE
 
 ## The claim I will stand behind
 
-A harness that won on every aggregate metric was correctly **not promoted**, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.
+A packet harness that improved verified pass and scope was correctly **not promoted**, by a rule written before the run, because it failed a pre-registered honesty gate. I will not stand behind 0 vs 2 as a comparison. H0 could not emit that metric.
 
 If you only remember one thing: pre-register the quiet failure mode before the pretty number arrives. Separate verified pass, scope, and claim honesty. Then change defaults only when the hard cases agree.
 

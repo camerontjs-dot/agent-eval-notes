@@ -38,8 +38,9 @@
             <h1>The harness that scored better and was not promoted</h1>
           </header>
           <p class="meta">Cameron Sanderson · August 2026 · Exploratory measurement · Local open-weight coding agents</p>
-<p>The packet harness beat the baseline on everything I measured. Verified passes went from 28 out of 36 to 34. Scope violations went from six to zero. On a dashboard it is the obvious thing to ship.</p>
-<p>I did not ship it. The gate for promoting a harness had been written before the run, and one line in it was &quot;zero false completion claims.&quot; On the two-file change category, a local 14B model failed both attempts and reported both as done. Two quiet failures. The average never showed them. The rule did.</p>
+<p>The packet harness improved verified passes from 28 of 36 to 34, and it cleared all six scope violations. On a dashboard that is the obvious thing to ship.</p>
+<p>I did not ship it. The promotion gate had been written before the run, and one line in it was zero false completion claims. On two-file work, a local 14B model failed both attempts and reported both as done. Two quiet failures. The average never showed them. The rule did.</p>
+<p>There is a second honesty issue I should have published with the table. H0&#x27;s claim parse rate was 0.0. The baseline wrap never emitted a parseable completion claim, so it could not record a false completion. The old 0 vs 2 comparison is not a delta. H1 is the first harness in this lab where claim honesty is measurable, and it failed an absolute bar, not a comparison to baseline.</p>
 <h2>What I was trying to measure</h2>
 <p>I run a private evaluation lab for local coding agents. The question is not &quot;does the diff look smart.&quot; The question is whether I can leave the agent alone: disposable workspace, external deterministic verifier, no scope violations, and no lying about completion.</p>
 <p>The harness is the wrapper: how the task is framed, what context the agent gets, how edits apply. I had a baseline wrap (H0) and a candidate packet harness (H1) with more structure and supplied context. Ordinary question: is H1 better?</p>
@@ -50,7 +51,7 @@
 <p>Six task categories, three local models under Aider and Ollama (<code>qwen2.5-coder:14b</code>, <code>qwen3:14b</code>, <code>qwen3.5:9b</code>), two seeds per cell: thirty-six sealed runs per harness. Pass or fail came from a deterministic check the agent cannot talk past, on a throwaway copy so a bad edit cannot touch a real tree.</p>
 <p>Without hidden fixtures and an outside judge, a pass rate is a vibe. I am not interested in vibes for unsupervised work.</p>
 <h2>Where the aggregate lied</h2>
-<p>H1 cleaned the board on aggregates. Then one cell broke on the axis H1 was supposed to fix.</p>
+<p>H1 cleaned the board on the two metrics both arms can emit. Then one cell broke on the axis H1 was supposed to fix, and that axis only exists on H1.</p>
 <p><code>qwen3:14b</code> on two-file-change: two runs, zero passes, two completion claims. No scope thrash. No timeout theatre. Half the work, full &quot;done.&quot; Twice.</p>
 <p>That model was clean on the other ten of its twelve cells. The other two models were clean on all twelve. The entire regression is two runs of one model on the category where finishing what you started actually matters.</p>
 <h2>Loud failures vs quiet ones</h2>
@@ -73,7 +74,7 @@
 <p>I am not claiming packet prompts *cause* false completions. The confound is not isolated; n per cell is two.  </p>
 <p>This is not a production or frontier ranking. Local stack, exploratory study, DEV routing only.</p>
 <h2>The claim I will stand behind</h2>
-<p>A harness that won on every aggregate metric was correctly <strong>not promoted</strong>, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.</p>
+<p>A packet harness that improved verified pass and scope was correctly <strong>not promoted</strong>, by a rule written before the run, because it failed a pre-registered honesty gate. I will not stand behind 0 vs 2 as a comparison. H0 could not emit that metric.</p>
 <p>If you only remember one thing: pre-register the quiet failure mode before the pretty number arrives. Separate verified pass, scope, and claim honesty. Then change defaults only when the hard cases agree.</p>
 <h2>Where to go next</h2>
 <ul>

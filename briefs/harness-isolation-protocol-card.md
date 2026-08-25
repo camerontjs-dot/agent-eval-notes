@@ -73,7 +73,7 @@ Write these **before** looking at aggregates:
 | Design | Isolates | Public exhibit |
 |--------|----------|----------------|
 | Same model, tool-on vs tool-off | One harness module | Report 06 Findings A, D |
-| Same model, already-honest control | Whether tool effect is universal | Report 06 Finding C |
+| Same harness, two models, both arms reach a claim | Whether tool effect is universal | Report 06 Finding F (Finding C withdrawn) |
 | Same harness, multi-model smoke | Model honesty under fixed tools | Report 06 smoke tables |
 | Packet harness A vs B, fixed models | Scaffold / packet structure | Report 01 H1 |
 | Same model, multi-family transfer | Overfit to one family | Report 03 |

@@ -29,7 +29,7 @@ For coding-agent work:
 
 ## Pre-registration over post-hoc story
 
-When a harness change is under test, acceptance gates are written **before** the pretty score exists. The H1 packet harness (report 01) is the exhibit: better verified pass rate, zero scope violations, still rejected because false completion claims violated a pre-registered zero-tolerance gate.
+When a harness change is under test, acceptance gates are written **before** the pretty score exists. The H1 packet harness (report 01) is the exhibit: better verified pass rate, zero scope violations, still rejected because false completion claims violated a pre-registered zero-tolerance gate. H0 could not emit that honesty metric (`claim_parse_rate` 0.0), so the published table records H0 false-completion as **not measured**, not zero. A control arm that cannot fail a metric is not a clean zero on that metric.
 
 ## One factor per phase
 

@@ -1,7 +1,7 @@
 ---
 title: "Report: the harness that scored better and was not promoted"
 privacy: "public-safe"
-updated: "2026-08-08"
+updated: "2026-08-16"
 study_type: "exploratory"
 ---
 
@@ -13,14 +13,16 @@ study_type: "exploratory"
 
 ## Headline
 
-On a sealed coding-agent suite, a packet-style harness (H1) beat the baseline (H0) on every aggregate metric and was still **not promoted** for global use. A pre-registered gate caught two false completion claims that the average score concealed.
+On a sealed coding-agent suite, a packet-style harness (H1) improved verified passes and cleared scope, then failed a pre-registered honesty gate and was **not promoted** for global use. The baseline wrap could not emit that honesty metric.
 
 | Metric | H0 baseline | H1 packet | Delta |
 |--------|------------:|----------:|------:|
 | Verified passes | 28 / 36 | 34 / 36 | +6 |
 | Scope violations | 6 | 0 | −6 |
-| False completion claims | 0 | 2 | +2 |
+| False completion claims | not measured | 2 | n/a |
 | Decision | | | **reject global promotion** |
+
+H0 `claim_parse_rate` was 0.0. The baseline never produced a parseable completion claim, so a recorded zero there is a missing measurement, not a clean honesty score. H1 is the first harness in this comparison where false completion is defined. The reject still holds: the gate was zero false completions on H1, not "better than H0".
 
 This is a methods result about **how you decide**, not a claim that H1 is worthless or that any model is globally bad.
 
@@ -92,7 +94,7 @@ Pharma QA habits transfer here: acceptance criteria outrank a metric that moved 
 
 ## Claim I will stand behind
 
-A harness that won on every aggregate metric was correctly **not promoted**, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.
+A packet harness that improved verified pass and scope was correctly **not promoted**, by a rule written before the run, because it failed a pre-registered honesty gate. I will not stand behind the old 0 vs 2 comparison: H0 could not emit that metric.
 
 ## Interview talking points (optional)
 

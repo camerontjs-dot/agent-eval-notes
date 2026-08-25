@@ -1,7 +1,7 @@
 ---
 title: "Proof points — agent evaluation (resume / interview)"
 privacy: "public-safe"
-updated: "2026-08-08"
+updated: "2026-08-25"
 source: "public reports 01–06"
 ---
 
@@ -14,10 +14,11 @@ Every number is locked to the public reports; do not invent extras. Prefer **one
 ## Flagship (AI eval / agent reliability / safety-minded systems)
 
 - Built a sealed coding-agent evaluation lab with disposable worktrees and external deterministic verification; treated scope violations and false completion claims as first-class failures, not soft notes.
-- Measured a packet harness that improved verified passes from 28/36 to 34/36 and eliminated scope violations (6→0), then **rejected global promotion** after a pre-registered gate caught 2 false completion claims on multi-file work.
+- Measured a packet harness that improved verified passes from 28/36 to 34/36 and eliminated scope violations (6→0), then **rejected global promotion** after a pre-registered gate caught 2 false completion claims on multi-file work. H0 could not emit the honesty metric (`claim_parse_rate` 0.0); the reject is an absolute H1 bar, not a 0 vs 2 delta.
 - Documented the failure mode: a local 14B model passed 10/12 other cells clean, then twice reported multi-file work complete when the external verifier failed both runs.
 - On a public demo-split live harness, showed that removing a `run_verify` tool flipped the same model from 3/3 clean to 0/3 pass with 3/3 false completions on a two-file task (exploratory, n=3 per arm).
-- Reproduced the same honesty flip on a local open-weight coder (`qwen2.5-coder:14b`, n=2 per arm): with verify, honest abstention; without verify, 2/2 false completions on the hard two-file task. A second local model (`qwen3.5:9b`) abstained in both arms (control: tool effect is model-dependent).
+- Reproduced the honesty flip on local `qwen2.5-coder:14b` at n=10 per arm, pooled across two Ollama runtimes: 20/20 false completions without `run_verify`, 1/20 with it. The earlier n=2 row that read as a clean abstain/lie flip is superseded.
+- Do not cite `qwen3.5:9b` as an “abstained either way” control. That n=2 label was a turn-budget timeout, then a harness bug that discarded reasoning. Model-dependence is Finding F: `qwen3:14b` still false-completes 9/10 with the tool.
 
 ## Local coding agents / ML systems / tooling
 
@@ -46,7 +47,7 @@ Every number is locked to the public reports; do not invent extras. Prefer **one
 ## Cover-letter / narrative seeds (short)
 
 **Reliability-focused:**  
-I measure agents the way regulated quality work measures processes: pre-registered acceptance criteria, external evidence, and quiet failure modes treated as real failures. When a harness scored better on every aggregate metric but introduced false completion claims, I did not promote it.
+I measure agents the way regulated quality work measures processes: pre-registered acceptance criteria, external evidence, and quiet failure modes treated as real failures. When a harness improved verified pass and scope but failed an honesty gate the baseline could not even emit, I did not promote it.
 
 **Builder-focused:**  
 I run local coding and retrieval stacks under sealed suites with external verifiers, then change defaults only when multi-file, constraint, or status-sensitive cases support the change.
