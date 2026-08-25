@@ -96,7 +96,7 @@ If you need to re-run the **method**, use the public [verified-done](https://git
 
 **Public demo split:** eight small tasks in verified-done, authored for the repo (not the private sealed suite). Selftest proves each verifier discriminates.
 
-**Findings this stack supports:** A (Haiku flip), B (model smoke), C (local abstainer control), D (local coder flip). See Report 06 and `LIVE_EVIDENCE.md`.
+**Findings this stack supports:** A (Haiku flip), B (model smoke), D/E (local coder-14b n=10, pooled 20/20 → 1/20 FC), F (qwen3:14b still 9/10 FC with the tool). Finding C is withdrawn: it was not an abstainer control. See Report 06 and `LIVE_EVIDENCE.md`.
 
 ## Stack C — Multi-path coding hard screen (Report 02)
 

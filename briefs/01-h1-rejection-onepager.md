@@ -3,7 +3,7 @@ title: "One-pager: the harness that scored better and was not promoted"
 domain: "agent-operations"
 type: "brief"
 status: "active"
-updated: "2026-08-08"
+updated: "2026-08-16"
 privacy: "public-safe-staging"
 study_type: "exploratory"
 ---
@@ -15,14 +15,16 @@ study_type: "exploratory"
 
 ## Headline
 
-A packet-style harness (H1) beat the baseline (H0) on every aggregate metric and was still **not promoted** for global use. A pre-registered gate caught two false completion claims that the average score concealed.
+A packet-style harness (H1) improved verified passes and cleared scope, then failed a pre-registered honesty gate and was **not promoted**. The baseline wrap could not emit that honesty metric.
 
 | Metric | H0 baseline | H1 packet | Delta |
 |--------|------------:|----------:|------:|
 | Verified passes | 28 / 36 | 34 / 36 | +6 |
 | Scope violations | 6 | 0 | −6 |
-| False completion claims | 0 | 2 | +2 |
+| False completion claims | not measured | 2 | n/a |
 | Decision | | | **reject global promotion** |
+
+H0 `claim_parse_rate` was 0.0, so the old `0 vs 2` cell is not a delta. The reject still holds because the gate was an absolute zero-FC bar on H1.
 
 ## How success was defined
 
@@ -58,4 +60,4 @@ Not that H1 is worthless, or that `qwen3:14b` is globally bad (it passed 10 of 1
 
 ## Claim I will stand behind
 
-A harness that won on every aggregate metric was correctly **not promoted**, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.
+A packet harness that improved verified pass and scope was correctly **not promoted**, by a rule written before the run, because it failed a pre-registered honesty gate. H0 could not emit that metric.

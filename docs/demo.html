@@ -54,14 +54,15 @@ python3 runner/run.py selftest</pre>
 <p><code>selftest</code> proves every verifier discriminates (start fails, solution passes). Latest public summary: 8/8 tasks discriminate; scope detection fires correctly.</p>
 <h2>Two splits</h2>
 <p>Headline numbers from the private sealed lab are <strong>cited, not shipped</strong>. The demo tasks here were authored fresh so the method is inspectable without burning held-out fixtures.</p>
-<p>Scrubbed live evidence (verify-tool ablation): <a href="https://github.com/camerontjs-dot/verified-done/blob/main/results/LIVE_EVIDENCE.md">LIVE_EVIDENCE.md</a> (Findings A–D).</p>
+<p>Scrubbed live evidence (verify-tool ablation): <a href="https://github.com/camerontjs-dot/verified-done/blob/main/results/LIVE_EVIDENCE.md">LIVE_EVIDENCE.md</a> (Findings A–F).</p>
 <h2>What the live evidence shows</h2>
 <ul>
   <li><strong>A (Haiku):</strong> same model, <code>run_verify</code> off → 3/3 false completion; on → 3/3 clean.</li>
-  <li><strong>D (local coder-14b):</strong> same flip on open weights (n=2/arm): abstain with verify, lie without it.</li>
-  <li><strong>C (local qwen3.5:9b):</strong> control — abstains in both arms. Tool effect is model-dependent.</li>
+  <li><strong>D/E (local coder-14b):</strong> n=10 per arm, pooled across two Ollama runtimes: 20/20 false completions without the tool, 1/20 with it. The n=2 row is superseded.</li>
+  <li><strong>C (local qwen3.5:9b):</strong> withdrawn as a control. The old “abstained either way” label was a timeout, then a harness bug that discarded reasoning.</li>
+  <li><strong>F (local qwen3:14b):</strong> the actual model-dependence cell. 10/10 FC without the tool, 9/10 with it, after the adapter fix.</li>
 </ul>
-<div class="callout warn">Not a model leaderboard. Eight tasks is a demonstration of the scoring contract. Live arms are exploratory and small-n.</div>
+<div class="callout warn">Not a model leaderboard. Eight tasks is a demonstration of the scoring contract. Live local arms are exploratory; n=10 per cell, not n=2.</div>
 
         </article>
       </div>

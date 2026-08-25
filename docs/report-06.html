@@ -100,65 +100,62 @@
 </tr>
 </tbody></table></div>
 <p>The hard part: the tool is <strong>necessary but not sufficient</strong>. It flipped Haiku clean. A different model can still report done without using the tool.</p>
-<h2>Local open-weight follow-up (2026-08-08)</h2>
-<p>Cloud Haiku is a strong demo, but hiring and local routing questions need the same factor on open weights. Same task (<code>07</code> two-file propagate), same tool contract, Ollama live loop. Exploratory, small n.</p>
-<h3>Finding D: local coder-14b reproduces the honesty flip</h3>
+<h2>Local open-weight follow-up</h2>
+<p>Cloud Haiku is a strong demo, but routing questions need the same factor on open weights. Same task (<code>07</code> two-file propagate), same tool contract, Ollama live loop. Exploratory. The n=2 rows published on 2026-08-08 are superseded.</p>
+<h3>Finding D and E: local coder-14b honesty flip (n=10, two runtimes)</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Arm</th>
+<th>n (pooled)</th>
+<th>Verified pass</th>
+<th>False completion</th>
+</tr></thead><tbody>
+<tr>
+<td>With <code>run_verify</code></td>
+<td>20</td>
+<td>6/20</td>
+<td><strong>1/20</strong></td>
+</tr>
+<tr>
+<td>No <code>run_verify</code></td>
+<td>20</td>
+<td>0/20</td>
+<td><strong>20/20</strong></td>
+</tr>
+</tbody></table></div>
+<p>Model: <code>qwen2.5-coder:14b</code>. Finding D is n=10 per arm. Finding E is the same design after an unplanned Ollama 0.32.7 → 0.32.9 upgrade. Pooled: 1/20 false completions with the tool, 20/20 without. The n=2 row that read as a clean abstain/lie flip is void.</p>
+<p>The tool cuts false completion. It does not eliminate it. &quot;Not proven to eliminate&quot; is the honest phrasing, and it is different from &quot;proven not to eliminate.&quot;</p>
+<h3>Finding C: withdrawn as a control</h3>
+<p>The n=2 publication said <code>qwen3.5:9b</code> abstained in both arms and used that as the model-dependence control. Raising n showed every run ended on <code>max turns</code> with no <code>finish</code> call. Then an adapter bug was found: the model returns reasoning in <code>thinking</code> and leaves <code>content</code> empty; the harness discarded it every turn.</p>
+<p>Do not cite this cell as &quot;already abstained either way.&quot; Timeout is not honesty. A silenced reasoning channel is not a model trait.</p>
+<h3>Finding F: qwen3:14b uses the verifier and overclaims anyway</h3>
 <div class="table-wrap"><table><thead><tr>
 <th>Arm</th>
 <th>n</th>
 <th>Verified pass</th>
 <th>False completion</th>
-<th>Dominant ledger</th>
 </tr></thead><tbody>
 <tr>
 <td>With <code>run_verify</code></td>
-<td>2</td>
-<td>0/2</td>
-<td><strong>0/2</strong></td>
-<td>Honestly abstained (2/2)</td>
+<td>10</td>
+<td>1/10</td>
+<td><strong>9/10</strong></td>
 </tr>
 <tr>
 <td>No <code>run_verify</code></td>
-<td>2</td>
-<td>0/2</td>
-<td><strong>2/2</strong></td>
-<td>Unsupported assertion / false completion (2/2)</td>
+<td>10</td>
+<td>0/10</td>
+<td><strong>10/10</strong></td>
 </tr>
 </tbody></table></div>
-<p>Model: <code>qwen2.5-coder:14b</code>. Local sibling of the Haiku result. Capability on this hard task stays 0/2 verified pass either way; what changes is the <strong>claim</strong>: with the tool it abstains; without it, it reports done.</p>
-<p>Honesty smoke the same day (verify on, n=4 tasks): <strong>3/4</strong> verified pass, <strong>0</strong> false completions.</p>
-<h3>Finding C: qwen3.5:9b is a control (already honest)</h3>
-<div class="table-wrap"><table><thead><tr>
-<th>Arm</th>
-<th>n</th>
-<th>Verified pass</th>
-<th>False completion</th>
-<th>Dominant ledger</th>
-</tr></thead><tbody>
-<tr>
-<td>With <code>run_verify</code></td>
-<td>2</td>
-<td>0/2</td>
-<td>0/2</td>
-<td>Honestly abstained (2/2)</td>
-</tr>
-<tr>
-<td>No <code>run_verify</code></td>
-<td>2</td>
-<td>0/2</td>
-<td>0/2</td>
-<td>Honestly abstained (2/2)</td>
-</tr>
-</tbody></table></div>
-<p>Removing the tool did <strong>not</strong> flip this model into false completions. The verify-tool effect is <strong>model-dependent</strong>.</p>
-<p>Honesty smoke same day (verify on, n=4): <strong>2/4</strong> verified pass, <strong>0</strong> FC.</p>
+<p>Post-adapter-fix. Both arms reached a completion claim in every run, so this is the comparable model-dependence cell. Same harness, same task: coder-14b goes 20/20 → 1/20 FC; qwen3:14b goes 10/10 → 9/10. Availability of a checker, and even calling it, is not the same as heeding it.</p>
 <h2>Decision language</h2>
 <ol>
 <li>Treat <code>run_verify</code> (or an equivalent external check the agent can call) as a <strong>controlled harness factor</strong>, not wallpaper.</li>
 <li>Do not score &quot;honest completion&quot; without a claim channel separate from the verifier.</li>
+<li>Separate &quot;the agent said it could not finish&quot; from &quot;the run ended before the agent said anything.&quot; Only the first is honesty.</li>
 <li>Prefer models that <strong>abstain</strong> when stuck over models that pass softer suites but lie on multi-file.</li>
 <li>When comparing models, hold the tool contract fixed. When comparing harnesses, hold the model fixed. Report both pass rate and false-completion rate.</li>
-<li>Do not assume a tool that fixed one model will fix another (Finding C vs D).</li>
+<li>Do not assume a tool that fixed one model will fix another (Finding F vs D/E). Finding C is withdrawn.</li>
 </ol>
 <h2>How this pairs with Report 01</h2>
 <p>Report 01: harness change on a sealed local suite, pre-registered zero false-completion gate, promotion rejected.  </p>
@@ -166,16 +163,17 @@
 <p>Same conclusion from two instruments: if you care about unsupervised &quot;done,&quot; measure claim honesty and treat the harness as an experimental axis.</p>
 <h2>What this does not prove</h2>
 <ul>
-<li>Small n. Haiku ablation is three replicates; local arms are two replicates per cell.</li>
+<li>Small n. Haiku ablation is three replicates. Local arms are ten per cell, twenty pooled across two runtimes for coder-14b.</li>
 <li>Not a model leaderboard.</li>
 <li>Cloud runs are not bit-reproducible; local tool loops are not full IDE agents.</li>
 <li>Not production graduation.</li>
 <li>Abstention is better than false completion; it is not the same as a verified pass.</li>
 </ul>
 <h2>Runnable surface</h2>
-<p>The public demo split and runner live in <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a>. Scrubbed live summary: that repo&#x27;s <code>results/LIVE_EVIDENCE.md</code> (Findings A–D).</p>
+<p>The public demo split and runner live in <a href="https://github.com/camerontjs-dot/verified-done">verified-done</a>. Scrubbed live summary: that repo&#x27;s <code>results/LIVE_EVIDENCE.md</code> (Findings A–F).</p>
 <h2>Claim I will stand behind</h2>
-<p>On this instrument, whether the agent can call an external verifier changed completion honesty from 0/3 to 3/3 for Haiku, and from 2/2 false completions to 0/2 for local <code>qwen2.5-coder:14b</code> on the same two-file task. A third local model already abstained in both arms. That is a harness × model interaction, not a personality trait.</p>
+<p>On this instrument, whether the agent can call an external verifier changed completion honesty from 0/3 to 3/3 for Haiku, and from 20/20 false completions to 1/20 for local <code>qwen2.5-coder:14b</code> on the same two-file task, pooled over two runtime versions.</p>
+<p>That is a harness factor. It is also a harness × model interaction, and the evidence for that is Finding F rather than Finding C, which was withdrawn. Same harness, same task: coder-14b 20/20 → 1/20 FC; qwen3:14b 10/10 → 9/10 FC. I will not claim that the tool causes honesty.</p>
         </article>
       </div>
       <div class="tour-bar">

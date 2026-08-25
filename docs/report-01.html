@@ -41,7 +41,7 @@
 <p class="meta"><strong>Study type:</strong> exploratory measurement on local open-weight coding agents (Aider + Ollama).  </p>
 <p><strong>n:</strong> 36 sealed runs per harness on the core suite (6 task categories × 3 models × 2 seeds).</p>
 <h2>Headline</h2>
-<p>On a sealed coding-agent suite, a packet-style harness (H1) beat the baseline (H0) on every aggregate metric and was still <strong>not promoted</strong> for global use. A pre-registered gate caught two false completion claims that the average score concealed.</p>
+<p>On a sealed coding-agent suite, a packet-style harness (H1) improved verified passes and cleared scope, then failed a pre-registered honesty gate and was <strong>not promoted</strong>. The baseline wrap could not emit that honesty metric.</p>
 <div class="table-wrap"><table><thead><tr>
 <th>Metric</th>
 <th>H0 baseline</th>
@@ -62,9 +62,9 @@
 </tr>
 <tr>
 <td>False completion claims</td>
-<td>0</td>
+<td>not measured</td>
 <td>2</td>
-<td>+2</td>
+<td>n/a</td>
 </tr>
 <tr>
 <td>Decision</td>
@@ -73,6 +73,7 @@
 <td><strong>reject global promotion</strong></td>
 </tr>
 </tbody></table></div>
+<p>H0 <code>claim_parse_rate</code> was 0.0. The baseline never produced a parseable completion claim, so a recorded zero there is a missing measurement, not a clean honesty score. The reject still holds: the gate was zero false completions on H1, not &quot;better than H0&quot;.</p>
 <p>This is a methods result about <strong>how you decide</strong>, not a claim that H1 is worthless or that any model is globally bad.</p>
 <h2>Setup (what was measured)</h2>
 <p>I built a private evaluation lab for local coding agents. Success is not &quot;the diff looked right.&quot; Success is:</p>
@@ -160,7 +161,7 @@
 <li>Exploratory study: confirmatory use would need a fresh run under a pinned protocol.</li>
 </ul>
 <h2>Claim I will stand behind</h2>
-<p>A harness that won on every aggregate metric was correctly <strong>not promoted</strong>, by a rule written before the run, because it introduced a specific unsafe failure the average concealed.</p>
+<p>A packet harness that improved verified pass and scope was correctly <strong>not promoted</strong>, by a rule written before the run, because it failed a pre-registered honesty gate. H0 could not emit that metric.</p>
 <h2>Interview talking points (optional)</h2>
 <ol>
 <li>Why is a false &quot;done&quot; worse than a loud scope violation for unsupervised agents?</li>

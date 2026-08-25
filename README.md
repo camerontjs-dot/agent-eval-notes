@@ -42,14 +42,11 @@ Operator publish logs and internal program notes stay in the private workspace. 
 | [`reports/`](reports/) | Six self-contained Markdown write-ups (01–06) |
 | [`essays/`](essays/) | Longform H1 rejection essay |
 | [`briefs/`](briefs/) | One-pagers, [harness isolation protocol](briefs/harness-isolation-protocol-card.md), [public harness descriptions](briefs/public-harness-descriptions.md) |
-| [`distribution/`](distribution/) | LinkedIn paste body + [post log](distribution/linkedin-post-log.md) |
 | [`pdf/`](pdf/) | Print-ready PDFs (H1, multi-path, transfer) |
 | [`numbers-lock.md`](numbers-lock.md) | Locked headline numbers + cross-repo links |
 | [`METHODOLOGY.md`](METHODOLOGY.md) | How measurement is defined |
 | [`LIMITATIONS.md`](LIMITATIONS.md) | What these notes do not claim |
 | [`proof-points.md`](proof-points.md) | Resume / interview talking points (numbers-locked) |
-| [`distribution/linkedin-post-draft.md`](distribution/linkedin-post-draft.md) | Ready-to-post LinkedIn draft |
-| [`notes/rag-adversarial-next.md`](notes/rag-adversarial-next.md) | RAG harder-slice plan (no new numbers yet) |
 
 ## Reports (pick one story)
 
@@ -60,7 +57,7 @@ Operator publish logs and internal program notes stay in the private workspace. 
 | [03 - Task-family transfer](reports/03-fixture-safety-task-transfer.md) | Coding winner fails constrained prose | Eval design |
 | [04 - RAG routes](reports/04-rag-stack-routes.md) | Use-case routes, not one Elo | RAG / retrieval |
 | [05 - Agent-as-evaluator](reports/05-skill-eval-agent-as-evaluator.md) | Skill edge matrix + thin smoke receipts | Prompt / skills |
-| [06 - Verify tool ablation](reports/06-verify-tool-false-completion.md) | run_verify flips honesty (Haiku + local coder-14b); abstainer control | Agent reliability |
+| [06 - Verify tool ablation](reports/06-verify-tool-false-completion.md) | run_verify flips honesty on Haiku and coder-14b; model-dependence is Finding F, not an abstainer control | Agent reliability |
 
 **Essay:** [The harness that scored better and was not promoted](essays/the-harness-that-scored-better.md)
 
