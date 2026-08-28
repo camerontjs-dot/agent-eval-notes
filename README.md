@@ -14,14 +14,13 @@ This package is **reports, essay, and method language only**. It does not includ
 | **This repo** | https://github.com/camerontjs-dot/agent-eval-notes |
 | **Runnable honesty demo** | https://github.com/camerontjs-dot/verified-done |
 
-Tour order: Start → Methodology → Labels → H1 rejection → Essay → Verify ablation → Multi-path → Transfer → RAG → Skills → **Try the method** → Limitations → Resume bullets.
+Tour order: Start → Methodology → Labels → H1 rejection → Essay → Verify ablation → Multi-path → Transfer → RAG → Skills → **Try the method** → Limitations.
 
 Local preview:
 
 ```bash
 python3 -m http.server 8080 --directory docs
 ```
-
 
 ## Public surface map
 
@@ -46,9 +45,8 @@ Operator publish logs and internal program notes stay in the private workspace. 
 | [`numbers-lock.md`](numbers-lock.md) | Locked headline numbers + cross-repo links |
 | [`METHODOLOGY.md`](METHODOLOGY.md) | How measurement is defined |
 | [`LIMITATIONS.md`](LIMITATIONS.md) | What these notes do not claim |
-| [`proof-points.md`](proof-points.md) | Resume / interview talking points (numbers-locked) |
 
-## Reports (pick one story)
+## Reports
 
 | Report | One-line story | Best for |
 |--------|----------------|----------|
